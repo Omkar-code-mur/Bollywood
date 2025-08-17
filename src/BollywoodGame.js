@@ -23,7 +23,7 @@ const BollywoodGame = () => {
 
   // Fetch movie data from backend (SQLite via Node.js API)
   useEffect(() => {
-    fetch("http://localhost:5000/movies")
+    fetch("https://bollywood-backend.onrender.com/movies")
       .then((response) => response.json())
       .then((data) => setMovies(data))
       .catch((error) => console.error("Error fetching movie data:", error));
