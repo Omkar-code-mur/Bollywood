@@ -1,0 +1,54 @@
+.game-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+
+.score,
+.guesses {
+  font-size: 18px;
+  margin: 10px;
+}
+
+.input-container {
+  margin: 10px;
+}
+
+input {
+  padding: 8px;
+  margin-right: 10px;
+  width: 250px;
+}
+
+button {
+  padding: 8px 12px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.correct {
+  color: green;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.movie-details {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  display: inline-block;
+  text-align: left;
+}
+
+.congrats {
+  color: green;
+}
+
+.fail {
+  color: red;
+}

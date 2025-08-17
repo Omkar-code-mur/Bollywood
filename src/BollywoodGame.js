@@ -5,57 +5,141 @@ import React, { useState, useEffect } from "react";
 // Fetching movie data from SQLite database via Node.js backend
 const BollywoodGame = () => {
   const [movies, setMovies] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(null);
   const [showHint, setShowHint] = useState(false);
   const [guessesLeft, setGuessesLeft] = useState(9);
+
   const [userGuesses, setUserGuesses] = useState({
-    movie: "",
-    song: "",
+    movie_name: "",
+    song_name: "",
     actor: "",
     actress: "",
   });
+
   const [correctGuesses, setCorrectGuesses] = useState({
-    movie: false,
-    song: false,
+    movie_name: false,
+    song_name: false,
     actor: false,
     actress: false,
   });
 
-  // Fetch movie data from backend (SQLite via Node.js API)
+  // 🎯 Initialize score from localStorage
+  const [score, setScore] = useState(() => {
+    return parseInt(localStorage.getItem("score")) || 0;
+  });
+
+  // 🎯 Track used movies (IDs) in localStorage
+  const [usedMovies, setUsedMovies] = useState(() => {
+    return JSON.parse(localStorage.getItem("usedMovies")) || [];
+  });
+
+  // Fetch movie data
   useEffect(() => {
     fetch("https://bollywood-backend.onrender.com/movies")
       .then((response) => response.json())
-      .then((data) => setMovies(data))
+      .then((data) => {
+        setMovies(data);
+
+        // After fetching movies, decide which movie to start with
+        let lastMovieId = localStorage.getItem("lastMovieId");
+
+        // If we have a last movie and it is not used completely yet
+        if (
+          lastMovieId &&
+          !JSON.parse(localStorage.getItem("usedMovies") || "[]").includes(
+            parseInt(lastMovieId)
+          )
+        ) {
+          const index = data.findIndex((m) => m.id === parseInt(lastMovieId));
+          if (index !== -1) {
+            setCurrentIndex(index);
+            return;
+          }
+        }
+
+        // Otherwise, pick a fresh movie that is not in usedMovies
+        const availableMovies = data.filter((m) => !usedMovies.includes(m.id));
+        if (availableMovies.length > 0) {
+          const randomIndex = Math.floor(
+            Math.random() * availableMovies.length
+          );
+          const nextMovie = availableMovies[randomIndex];
+          const nextIndex = data.findIndex((m) => m.id === nextMovie.id);
+          setCurrentIndex(nextIndex);
+          localStorage.setItem("lastMovieId", nextMovie.id);
+        }
+      })
       .catch((error) => console.error("Error fetching movie data:", error));
   }, []);
 
-  const currentMovie = movies[currentIndex] || {};
+  const currentMovie = currentIndex !== null ? movies[currentIndex] : {};
 
+  // 🎯 Guess Handling
   const handleGuess = (category) => {
-    if (guessesLeft === 0) return; // No more guesses allowed
+    if (guessesLeft === 0) return;
 
     const guess = userGuesses[category].trim().toLowerCase();
     const correctAnswer = currentMovie[category]?.toLowerCase();
 
     if (guess === correctAnswer) {
       setCorrectGuesses({ ...correctGuesses, [category]: true });
+
+      if (!correctGuesses[category]) {
+        const newScore = score + 1;
+        setScore(newScore);
+        localStorage.setItem("score", newScore);
+      }
     } else {
       setGuessesLeft(guessesLeft - 1);
     }
   };
 
+  // 🎯 Pick next movie (skip used ones)
   const handleNext = () => {
     setShowHint(false);
-    setGuessesLeft(9); // Reset guesses for next round
-    setUserGuesses({ movie: "", song: "", actor: "", actress: "" });
+    setGuessesLeft(9);
+    setUserGuesses({ movie_name: "", song_name: "", actor: "", actress: "" });
     setCorrectGuesses({
-      movie: false,
-      song: false,
+      movie_name: false,
+      song_name: false,
       actor: false,
       actress: false,
     });
-    setCurrentIndex((prev) => (prev + 1) % movies.length);
+
+    if (!currentMovie.id) return;
+
+    // Save current movie to used list
+    const updatedUsed = [...usedMovies, currentMovie.id];
+    setUsedMovies(updatedUsed);
+    localStorage.setItem("usedMovies", JSON.stringify(updatedUsed));
+
+    // Filter available movies
+    const availableMovies = movies.filter((m) => !updatedUsed.includes(m.id));
+
+    if (availableMovies.length === 0) {
+      // 🎉 Reset if all movies are used
+      alert("All movies completed! Starting fresh round.");
+      setUsedMovies([]);
+      localStorage.removeItem("usedMovies");
+      localStorage.removeItem("lastMovieId");
+      setCurrentIndex(0);
+    } else {
+      // Pick next random movie from unused ones
+      const randomIndex = Math.floor(Math.random() * availableMovies.length);
+      const nextMovie = availableMovies[randomIndex];
+      const nextIndex = movies.findIndex((m) => m.id === nextMovie.id);
+      setCurrentIndex(nextIndex);
+
+      // Save last movie ID to localStorage
+      localStorage.setItem("lastMovieId", nextMovie.id);
+    }
   };
+
+  if (!currentMovie.id) {
+    return (
+      <div style={{ padding: "2rem", textAlign: "center" }}>Loading...</div>
+    );
+  }
 
   return (
     <div style={styles.container}>
@@ -68,14 +152,14 @@ const BollywoodGame = () => {
               <td style={styles.cell}>
                 <strong>Movie</strong>
                 <br />
-                {correctGuesses.movie ? (
+                {correctGuesses.movie_name ? (
                   <span style={styles.correct}>
                     {currentMovie.movie_letter}
                   </span>
                 ) : (
                   <span
                     style={styles.letter}
-                    onClick={() => handleGuess("movie")}>
+                    onClick={() => handleGuess("movie_name")}>
                     {currentMovie.movie_letter}
                   </span>
                 )}
@@ -83,12 +167,12 @@ const BollywoodGame = () => {
               <td style={styles.cell}>
                 <strong>Song</strong>
                 <br />
-                {correctGuesses.song ? (
+                {correctGuesses.song_name ? (
                   <span style={styles.correct}>{currentMovie.song_letter}</span>
                 ) : (
                   <span
                     style={styles.letter}
-                    onClick={() => handleGuess("song")}>
+                    onClick={() => handleGuess("song_name")}>
                     {currentMovie.song_letter}
                   </span>
                 )}
@@ -134,6 +218,9 @@ const BollywoodGame = () => {
         <p>
           <strong>Guesses Left:</strong> {guessesLeft}
         </p>
+        <p>
+          <strong>Score:</strong> {score}
+        </p>
       </div>
 
       {/* Input Fields for User's Guess */}
@@ -141,15 +228,15 @@ const BollywoodGame = () => {
         <div>
           <input
             type='text'
-            value={userGuesses.movie}
+            value={userGuesses.movie_name}
             onChange={(e) =>
-              setUserGuesses({ ...userGuesses, movie: e.target.value })
+              setUserGuesses({ ...userGuesses, movie_name: e.target.value })
             }
             placeholder='Guess Movie'
             style={styles.input}
           />
           <button
-            onClick={() => handleGuess("movie")}
+            onClick={() => handleGuess("movie_name")}
             style={styles.inputButton}>
             Guess
           </button>
@@ -157,15 +244,15 @@ const BollywoodGame = () => {
         <div>
           <input
             type='text'
-            value={userGuesses.song}
+            value={userGuesses.song_name}
             onChange={(e) =>
-              setUserGuesses({ ...userGuesses, song: e.target.value })
+              setUserGuesses({ ...userGuesses, song_name: e.target.value })
             }
             placeholder='Guess Song'
             style={styles.input}
           />
           <button
-            onClick={() => handleGuess("song")}
+            onClick={() => handleGuess("song_name")}
             style={styles.inputButton}>
             Guess
           </button>
@@ -219,7 +306,20 @@ const BollywoodGame = () => {
             <strong>Hint:</strong>
           </p>
           <p>Genre: {currentMovie.genre}</p>
-          <p>Release Year: {currentMovie.releaseYear}</p>
+          <p>Release Year: {currentMovie.release_year}</p>
+        </div>
+      )}
+      {(guessesLeft === 0 || showHint) && (
+        <div style={styles.hintContainer}>
+          <p>
+            <strong>Correct Answers:</strong>
+          </p>
+          <p>Movie: {currentMovie.movie_name}</p>
+          <p>Song: {currentMovie.song_name}</p>
+          <p>Actor: {currentMovie.actor}</p>
+          <p>Actress: {currentMovie.actress}</p>
+          <p>Genre: {currentMovie.genre}</p>
+          <p>Release Year: {currentMovie.release_year}</p>
         </div>
       )}
     </div>
@@ -240,12 +340,12 @@ const styles = {
     marginBottom: "2rem",
   },
   table: {
-    borderCollapse: "collapse", // Ensures internal borders are present
+    borderCollapse: "collapse",
   },
   cell: {
     width: "150px",
     height: "150px",
-    border: "1px solid #ccc", // Internal border
+    border: "1px solid #ccc",
     padding: "20px",
     fontSize: "2rem",
     fontWeight: "bold",
