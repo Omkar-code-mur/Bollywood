@@ -150,36 +150,6 @@ const BollywoodGame = () => {
           <tbody>
             <tr>
               <td style={styles.cell}>
-                <strong>Movie</strong>
-                <br />
-                {correctGuesses.movie_name ? (
-                  <span style={styles.correct}>
-                    {currentMovie.movie_letter}
-                  </span>
-                ) : (
-                  <span
-                    style={styles.letter}
-                    onClick={() => handleGuess("movie_name")}>
-                    {currentMovie.movie_letter}
-                  </span>
-                )}
-              </td>
-              <td style={styles.cell}>
-                <strong>Song</strong>
-                <br />
-                {correctGuesses.song_name ? (
-                  <span style={styles.correct}>{currentMovie.song_letter}</span>
-                ) : (
-                  <span
-                    style={styles.letter}
-                    onClick={() => handleGuess("song_name")}>
-                    {currentMovie.song_letter}
-                  </span>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td style={styles.cell}>
                 <strong>Actor</strong>
                 <br />
                 {correctGuesses.actor ? (
@@ -210,6 +180,36 @@ const BollywoodGame = () => {
                 )}
               </td>
             </tr>
+            <tr>
+              <td style={styles.cell}>
+                <strong>Movie</strong>
+                <br />
+                {correctGuesses.movie_name ? (
+                  <span style={styles.correct}>
+                    {currentMovie.movie_letter}
+                  </span>
+                ) : (
+                  <span
+                    style={styles.letter}
+                    onClick={() => handleGuess("movie_name")}>
+                    {currentMovie.movie_letter}
+                  </span>
+                )}
+              </td>
+              <td style={styles.cell}>
+                <strong>Song</strong>
+                <br />
+                {correctGuesses.song_name ? (
+                  <span style={styles.correct}>{currentMovie.song_letter}</span>
+                ) : (
+                  <span
+                    style={styles.letter}
+                    onClick={() => handleGuess("song_name")}>
+                    {currentMovie.song_letter}
+                  </span>
+                )}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -225,38 +225,6 @@ const BollywoodGame = () => {
 
       {/* Input Fields for User's Guess */}
       <div style={styles.inputFields}>
-        <div>
-          <input
-            type='text'
-            value={userGuesses.movie_name}
-            onChange={(e) =>
-              setUserGuesses({ ...userGuesses, movie_name: e.target.value })
-            }
-            placeholder='Guess Movie'
-            style={styles.input}
-          />
-          <button
-            onClick={() => handleGuess("movie_name")}
-            style={styles.inputButton}>
-            Guess
-          </button>
-        </div>
-        <div>
-          <input
-            type='text'
-            value={userGuesses.song_name}
-            onChange={(e) =>
-              setUserGuesses({ ...userGuesses, song_name: e.target.value })
-            }
-            placeholder='Guess Song'
-            style={styles.input}
-          />
-          <button
-            onClick={() => handleGuess("song_name")}
-            style={styles.inputButton}>
-            Guess
-          </button>
-        </div>
         <div>
           <input
             type='text'
@@ -289,6 +257,38 @@ const BollywoodGame = () => {
             Guess
           </button>
         </div>
+        <div>
+          <input
+            type='text'
+            value={userGuesses.movie_name}
+            onChange={(e) =>
+              setUserGuesses({ ...userGuesses, movie_name: e.target.value })
+            }
+            placeholder='Guess Movie'
+            style={styles.input}
+          />
+          <button
+            onClick={() => handleGuess("movie_name")}
+            style={styles.inputButton}>
+            Guess
+          </button>
+        </div>
+        <div>
+          <input
+            type='text'
+            value={userGuesses.song_name}
+            onChange={(e) =>
+              setUserGuesses({ ...userGuesses, song_name: e.target.value })
+            }
+            placeholder='Guess Song'
+            style={styles.input}
+          />
+          <button
+            onClick={() => handleGuess("song_name")}
+            style={styles.inputButton}>
+            Guess
+          </button>
+        </div>
       </div>
 
       <div style={styles.buttons}>
@@ -309,7 +309,7 @@ const BollywoodGame = () => {
           <p>Release Year: {currentMovie.release_year}</p>
         </div>
       )}
-      {(guessesLeft === 0) && (
+      {guessesLeft === 0 && (
         <div style={styles.hintContainer}>
           <p>
             <strong>Correct Answers:</strong>
