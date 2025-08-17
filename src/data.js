@@ -1,0 +1,40 @@
+/** @format */
+
+export const movies = [
+  {
+    movieName: "Aashiqui 2",
+    releaseYear: 2013,
+    genre: "Romance/Musical",
+    actor: "Aditya Roy Kapur",
+    actress: "Shraddha Kapoor",
+    song: "Tum Hi Ho",
+    movieLetter: "A",
+    songLetter: "T",
+    actorLetter: "A",
+    actressLetter: "S",
+  },
+  {
+    movieName: "Ajab Prem Ki Ghazab Kahani",
+    releaseYear: 2009,
+    genre: "Rom-com",
+    actor: "Ranbir Kapoor",
+    actress: "Katrina Kaif",
+    song: "Tera Hone Laga Hoon",
+    movieLetter: "A",
+    songLetter: "T",
+    actorLetter: "R",
+    actressLetter: "K",
+  },
+  {
+    movieName: "Akshay Kumar starrer: Bhool Bhulaiyaa",
+    releaseYear: 2007,
+    genre: "Horror/Comedy",
+    actor: "Akshay Kumar",
+    actress: "Vidya Balan",
+    song: "Aami Je Tomar",
+    movieLetter: "B",
+    songLetter: "A",
+    actorLetter: "A",
+    actressLetter: "V",
+  },
+];
