@@ -70,7 +70,7 @@ const BollywoodGame = () => {
         }
       })
       .catch((error) => console.error("Error fetching movie data:", error));
-  }, []);
+  }, [usedMovies]);
 
   const currentMovie = currentIndex !== null ? movies[currentIndex] : {};
 
