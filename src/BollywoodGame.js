@@ -309,7 +309,7 @@ const BollywoodGame = () => {
           <p>Release Year: {currentMovie.release_year}</p>
         </div>
       )}
-      {(guessesLeft === 0 || showHint) && (
+      {(guessesLeft === 0) && (
         <div style={styles.hintContainer}>
           <p>
             <strong>Correct Answers:</strong>
