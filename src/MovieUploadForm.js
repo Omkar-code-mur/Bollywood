@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -19,11 +21,15 @@ const ExcelUploader = () => {
     formData.append("file", file); // <-- Must be "file"
 
     try {
-      const response = await axios.post("http://localhost:5000/upload-movies", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/upload-movies",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       setMessage(response.data);
     } catch (error) {
@@ -35,7 +41,7 @@ const ExcelUploader = () => {
   return (
     <div style={{ padding: 20 }}>
       <h2>Upload Excel File</h2>
-      <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
+      <input type='file' accept='.xlsx,.xls' onChange={handleFileChange} />
       <br />
       <button onClick={handleUpload} style={{ marginTop: 10 }}>
         Upload
@@ -47,31 +53,31 @@ const ExcelUploader = () => {
 
 export default ExcelUploader;
 
-const styles = {
-  container: {
-    padding: "2rem",
-    fontFamily: "Arial, sans-serif",
-    textAlign: "center",
-    backgroundColor: "#f0f0f0",
-    minHeight: "100vh",
-  },
-  input: {
-    padding: "8px",
-    fontSize: "1rem",
-    width: "250px",
-    margin: "10px",
-    borderRadius: "5px",
-  },
-  submitButton: {
-    padding: "0.5rem 2rem",
-    backgroundColor: "#007BFF",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    marginTop: "20px",
-    cursor: "pointer",
-    fontSize: "1rem",
-  },
-};
+// const styles = {
+//   container: {
+//     padding: "2rem",
+//     fontFamily: "Arial, sans-serif",
+//     textAlign: "center",
+//     backgroundColor: "#f0f0f0",
+//     minHeight: "100vh",
+//   },
+//   input: {
+//     padding: "8px",
+//     fontSize: "1rem",
+//     width: "250px",
+//     margin: "10px",
+//     borderRadius: "5px",
+//   },
+//   submitButton: {
+//     padding: "0.5rem 2rem",
+//     backgroundColor: "#007BFF",
+//     color: "white",
+//     border: "none",
+//     borderRadius: "5px",
+//     marginTop: "20px",
+//     cursor: "pointer",
+//     fontSize: "1rem",
+//   },
+// };
 
-// export default MovieUploadForm;
+// // export default MovieUploadForm;

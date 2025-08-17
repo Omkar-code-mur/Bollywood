@@ -2,12 +2,12 @@
 
 import React from "react";
 import BollywoodGame from "./BollywoodGame";
-import ExcelUploader from "./MovieUploadForm";
-import MovieForm from "./MovieForm";
+// import ExcelUploader from "./MovieUploadForm";
+// import MovieForm from "./MovieForm";
 
 function App() {
   return (
-    <div className='App'> 
+    <div className='App'>
       <BollywoodGame />
       {/* <MovieForm />
       <ExcelUploader /> */}
