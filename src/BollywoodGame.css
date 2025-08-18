@@ -1,54 +1,176 @@
+/* BollywoodGame.css */
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+  margin: 0;
+  padding: 0;
+}
+
 .game-container {
+  max-width: 480px;
+  margin: 30px auto;
   text-align: center;
-  font-family: Arial, sans-serif;
-  margin-top: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-.score,
-.guesses {
-  font-size: 18px;
-  margin: 10px;
+.title {
+  font-size: 26px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  color: #262626;
 }
 
-.input-container {
-  margin: 10px;
-}
-
-input {
-  padding: 8px;
-  margin-right: 10px;
-  width: 250px;
-}
-
-button {
-  padding: 8px 12px;
-  margin: 5px;
-  cursor: pointer;
-}
-
-.correct {
-  color: green;
+/* Bollywood Strike */
+.bollywood-status {
   font-size: 20px;
-  margin-left: 10px;
+  margin: 16px 0;
+  letter-spacing: 8px;
+  font-weight: bold;
+  color: #262626;
 }
 
-.buttons {
-  margin-top: 20px;
+.bollywood-status span.crossed {
+  text-decoration: line-through;
+  color: #ff3b30; /* Instagram red */
 }
 
-.movie-details {
-  margin-top: 20px;
-  padding: 15px;
-  background: #f9f9f9;
-  border-radius: 8px;
+/* Card for clues */
+.card {
   display: inline-block;
-  text-align: left;
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease;
+  background: #fff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-.congrats {
-  color: green;
+.card-success {
+  background: #e5ffe5; /* soft green */
 }
 
-.fail {
-  color: red;
+.table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
+.table td {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 12px;
+  width: 130px;
+  height: 130px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  background: #fafafa;
+  transition: background 0.3s ease;
+}
+
+.table td.correct {
+  background: #d1f7d6;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+/* Input */
+.input-box {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.input-box input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 240px;
+  outline: none;
+  background: #fafafa;
+}
+
+.input-box input:focus {
+  border-color: #0095f6;
+  background: #fff;
+  box-shadow: 0px 0px 4px rgba(0, 149, 246, 0.3);
+}
+
+.input-box button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.hint-btn {
+  margin: 14px auto;
+  padding: 8px 16px;
+  border: none;
+  background: #ffe066;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: block;       /* ✅ centers button */
+}
+
+.hint-box {
+  margin: 12px auto;
+  padding: 12px;
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+  background: #f9fff4;
+  width: 85%;
+  max-width: 320px;
+  font-size: 14px;
+  text-align: center;   /* ✅ centers text inside */
+  display: block;
+}
+
+/* Status messages */
+.success {
+  margin-top: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2ecc71;
+}
+
+.game-over {
+  margin-top: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+/* Next button */
+.next-btn {
+  margin-top: 16px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #0095f6;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.next-btn:hover {
+  background: #0077cc;
+  transform: translateY(-2px);
 }
