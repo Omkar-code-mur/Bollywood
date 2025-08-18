@@ -216,17 +216,27 @@ const BollywoodGame = () => {
               <td className={`square ${correctGuesses.actor ? "correct" : ""}`}>
                 <strong>Actor</strong>
                 <br />
-                {correctGuesses.actor
-                  ? currentMovie.actor
-                  : currentMovie.actor_letter}
+                <span
+                  className={
+                    correctGuesses.actor ? "small-letter" : "big-letter"
+                  }>
+                  {correctGuesses.actor
+                    ? currentMovie.actor
+                    : currentMovie.actor_letter}
+                </span>
               </td>
               <td
                 className={`square ${correctGuesses.actress ? "correct" : ""}`}>
                 <strong>Actress</strong>
                 <br />
-                {correctGuesses.actress
-                  ? currentMovie.actress
-                  : currentMovie.actress_letter}
+                <span
+                  className={
+                    correctGuesses.actress ? "small-letter" : "big-letter"
+                  }>
+                  {correctGuesses.actress
+                    ? currentMovie.actress
+                    : currentMovie.actress_letter}
+                </span>
               </td>
             </tr>
             <tr>
@@ -236,9 +246,14 @@ const BollywoodGame = () => {
                 }`}>
                 <strong>Movie</strong>
                 <br />
-                {correctGuesses.movie_name
-                  ? currentMovie.movie_name
-                  : currentMovie.movie_letter}
+                <span
+                  className={
+                    correctGuesses.movie_name ? "small-letter" : "big-letter"
+                  }>
+                  {correctGuesses.movie_name
+                    ? currentMovie.movie_name
+                    : currentMovie.movie_letter}
+                </span>
               </td>
               <td
                 className={`square ${
@@ -246,9 +261,14 @@ const BollywoodGame = () => {
                 }`}>
                 <strong>Song</strong>
                 <br />
-                {correctGuesses.song_name
-                  ? currentMovie.song_name
-                  : currentMovie.song_letter}
+                <span
+                  className={
+                    correctGuesses.song_name ? "small-letter" : "big-letter"
+                  }>
+                  {correctGuesses.song_name
+                    ? currentMovie.song_name
+                    : currentMovie.song_letter}
+                </span>
               </td>
             </tr>
           </tbody>

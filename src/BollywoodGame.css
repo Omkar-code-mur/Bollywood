@@ -1,73 +1,78 @@
-/* BollywoodGame.css */
+/* BollywoodGame.css - Accessible & Mobile-Friendly */
 
 body {
   font-family: "Poppins", sans-serif;
   background: #fafafa;
   margin: 0;
   padding: 0;
+  font-size: 18px; /* Increased base font */
+  line-height: 1.6;
+  color: #222;
 }
 
 .game-container {
   max-width: 480px;
-  margin: 30px auto;
+  margin: 20px auto;
   text-align: center;
-  padding: 20px;
+  padding: 24px;
   background: #fff;
   border-radius: 20px;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .title {
-  font-size: 26px;
-  margin-bottom: 16px;
-  font-weight: 600;
-  color: #262626;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #111;
 }
 
 /* Bollywood Strike */
 .bollywood-status {
-  font-size: 20px;
+  font-size: 22px;
   margin: 16px 0;
-  letter-spacing: 8px;
-  font-weight: bold;
-  color: #262626;
+  letter-spacing: 6px;
+  font-weight: 700;
+  color: #111;
 }
 
 .bollywood-status span.crossed {
   text-decoration: line-through;
-  color: #ff3b30; /* Instagram red */
+  color: #ff3b30; /* Strong contrast red */
 }
 
 /* Card for clues */
 .card {
   display: inline-block;
-  padding: 18px;
+  padding: 20px;
   border-radius: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   transition: background-color 0.3s ease;
   background: #fff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.07);
 }
 
 .card-success {
   background: #e5ffe5; /* soft green */
 }
 
+/* Table */
 .table {
   border-collapse: collapse;
   margin: auto;
+  width: 100%;
 }
 
 .table td {
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 12px;
-  width: 130px;
-  height: 130px;
+  padding: 16px;
+  width: 25%;
+  height: 140px;
   vertical-align: middle;
   text-align: center;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   background: #fafafa;
   transition: background 0.3s ease;
 }
@@ -80,18 +85,20 @@ body {
 
 /* Input */
 .input-box {
-  margin-top: 16px;
+  margin-top: 18px;
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .input-box input {
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  width: 240px;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 260px;
   outline: none;
   background: #fafafa;
 }
@@ -99,73 +106,77 @@ body {
 .input-box input:focus {
   border-color: #0095f6;
   background: #fff;
-  box-shadow: 0px 0px 4px rgba(0, 149, 246, 0.3);
+  box-shadow: 0px 0px 6px rgba(0, 149, 246, 0.3);
 }
 
 .input-box button {
-  padding: 10px 16px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
   color: white;
   font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-box button:hover {
   transform: translateY(-2px);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Hint */
 .hint-btn {
-  margin: 14px auto;
-  padding: 8px 16px;
+  margin: 16px auto;
+  padding: 10px 20px;
   border: none;
   background: #ffe066;
-  border-radius: 10px;
-  font-weight: 500;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
-  display: block;       /* ✅ centers button */
+  display: block;
 }
 
 .hint-box {
-  margin: 12px auto;
-  padding: 12px;
+  margin: 14px auto;
+  padding: 14px;
   border: 1px dashed #ccc;
   border-radius: 12px;
   background: #f9fff4;
-  width: 85%;
-  max-width: 320px;
-  font-size: 14px;
-  text-align: center;   /* ✅ centers text inside */
+  width: 90%;
+  max-width: 340px;
+  font-size: 16px;
+  text-align: center;
   display: block;
 }
 
 /* Status messages */
 .success {
-  margin-top: 14px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #2ecc71;
+  margin-top: 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #27ae60;
 }
 
 .game-over {
-  margin-top: 14px;
-  font-size: 18px;
-  font-weight: 600;
+  margin-top: 16px;
+  font-size: 20px;
+  font-weight: 700;
   color: #e74c3c;
 }
 
 /* Next button */
 .next-btn {
-  margin-top: 16px;
-  padding: 12px 18px;
+  margin-top: 18px;
+  padding: 14px 20px;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   background: #0095f6;
   color: white;
   font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -174,3 +185,37 @@ body {
   background: #0077cc;
   transform: translateY(-2px);
 }
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .table td {
+    padding: 12px;
+    height: 120px;
+    font-size: 14px;
+  }
+
+  .input-box input,
+  .input-box button,
+  .hint-btn,
+  .next-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .hint-box {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+/* Only the letters are bigger */
+.big-letter {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.small-letter {
+  font-size: 16px;
+  font-weight: normal;
+}
+
