@@ -219,3 +219,25 @@ body {
   font-weight: normal;
 }
 
+
+/* User display */
+.user-display {
+  background: #f8f9fa;
+  border: 1px solid #e5e5e5;
+  padding: 8px 16px;
+  border-radius: 30px; /* pill shape */
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.user-display:hover {
+  background: #f1f3f5;
+  transform: translateY(-1px);
+}
