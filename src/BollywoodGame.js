@@ -51,7 +51,7 @@ const BollywoodGame = () => {
         localStorage.setItem("user", JSON.stringify(newUser));
         localStorage.setItem("askedUsername", "true"); // ✅ mark asked
 
-        fetch("http://localhost:5000/create-user", {
+        fetch("https://bollywood-backend.onrender.com/create-user", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username: name, score: score }),
@@ -79,7 +79,7 @@ const BollywoodGame = () => {
     if (!user) return;
     // fetch("https://bollywood-backend.onrender.com/update-score", {
 
-    fetch("http://localhost:5000/update-score", {
+    fetch("https://bollywood-backend.onrender.com/update-score", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: user.userId, score: newScore }),
@@ -128,7 +128,7 @@ const BollywoodGame = () => {
 
   // 🔹 Fetch movie data
   useEffect(() => {
-    fetch("http://localhost:5000/movies")
+    fetch("https://bollywood-backend.onrender.com/movies")
       // fetch("https://bollywood-backend.onrender.com/movies")
       .then((res) => res.json())
       .then((data) => {
