@@ -6,23 +6,16 @@ const BollywoodGame = () => {
   const [movies, setMovies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [input, setInput] = useState("");
-  // Load state from localStorage
   const [wrongGuesses, setWrongGuesses] = useState(() => {
     return parseInt(localStorage.getItem("wrongGuesses")) || 0;
   });
-
   const [showHint, setShowHint] = useState(false);
-
-  // ✅ Track used movies
   const [usedMovies, setUsedMovies] = useState(
     JSON.parse(localStorage.getItem("usedMovies") || "[]")
   );
-
-  // ✅ Track score from localStorage
   const [score, setScore] = useState(() => {
     return parseInt(localStorage.getItem("score")) || 0;
   });
-
   const [correctGuesses, setCorrectGuesses] = useState(() => {
     return (
       JSON.parse(localStorage.getItem("correctGuesses")) || {
@@ -35,21 +28,20 @@ const BollywoodGame = () => {
   });
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null; // { userId, username }
+    return stored ? JSON.parse(stored) : null;
   });
 
   useEffect(() => {
     if (!user) {
       const alreadyAsked = localStorage.getItem("askedUsername");
-      if (alreadyAsked) return; // ✅ prevent asking twice
+      if (alreadyAsked) return;
 
-      debugger;
       const name = prompt("Enter your username:");
       if (name) {
         const newUser = { username: name };
         setUser(newUser);
         localStorage.setItem("user", JSON.stringify(newUser));
-        localStorage.setItem("askedUsername", "true"); // ✅ mark asked
+        localStorage.setItem("askedUsername", "true");
 
         fetch("https://bollywood-backend.onrender.com/create-user", {
           method: "POST",
@@ -59,7 +51,7 @@ const BollywoodGame = () => {
           .then(async (res) => {
             if (!res.ok) {
               const error = await res.json();
-              alert(error.error); // ⚡ Show "Username already taken"
+              alert(error.error);
               throw new Error(error.error);
             }
             return res.json();
@@ -77,8 +69,6 @@ const BollywoodGame = () => {
 
   const updateBackendScore = (newScore) => {
     if (!user) return;
-    // fetch("https://bollywood-backend.onrender.com/update-score", {
-
     fetch("https://bollywood-backend.onrender.com/update-score", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -89,9 +79,8 @@ const BollywoodGame = () => {
       .catch((err) => console.error("Error updating score:", err));
   };
 
-  const maxGuesses = 9; // BOLLYWOOD has 9 letters
+  const maxGuesses = 9;
 
-  // 🔹 Normalize strings
   const normalize = (str) =>
     str
       .toLowerCase()
@@ -99,7 +88,6 @@ const BollywoodGame = () => {
       .replace(/\s+/g, " ")
       .trim();
 
-  // 🔹 Levenshtein distance
   const levenshtein = (a, b) => {
     const m = a.length,
       n = b.length;
@@ -117,26 +105,21 @@ const BollywoodGame = () => {
     return dp[m][n];
   };
 
-  // 🔹 Fuzzy comparison
   const isCloseMatch = (guess, answer) => {
     const g = normalize(guess);
     const a = normalize(answer);
     if (!g || !a) return false;
     if (g === a) return true;
-    return levenshtein(g, a) <= 2; // allow 2 typos
+    return levenshtein(g, a) <= 2;
   };
 
-  // 🔹 Fetch movie data
   useEffect(() => {
     fetch("https://bollywood-backend.onrender.com/movies")
-      // fetch("https://bollywood-backend.onrender.com/movies")
       .then((res) => res.json())
       .then((data) => {
         setMovies(data);
 
         let lastMovieId = localStorage.getItem("lastMovieId");
-
-        // ✅ Continue with last unfinished movie
         if (lastMovieId && !usedMovies.includes(parseInt(lastMovieId))) {
           const index = data.findIndex((m) => m.id === parseInt(lastMovieId));
           if (index !== -1) {
@@ -145,7 +128,6 @@ const BollywoodGame = () => {
           }
         }
 
-        // ✅ Otherwise, pick a fresh random movie
         const availableMovies = data.filter((m) => !usedMovies.includes(m.id));
         if (availableMovies.length > 0) {
           const randomIndex = Math.floor(
@@ -166,7 +148,6 @@ const BollywoodGame = () => {
 
   const currentMovie = movies[currentIndex];
 
-  // 🔹 Handle Guess
   const handleGuess = (e) => {
     e.preventDefault();
     const guess = input.trim();
@@ -206,27 +187,23 @@ const BollywoodGame = () => {
 
     setCorrectGuesses(updated);
     localStorage.setItem("correctGuesses", JSON.stringify(updated));
-
     setInput("");
   };
 
-  // ✅ Update score
   const updateScore = () => {
     const newScore = score + 1;
     setScore(newScore);
     localStorage.setItem("score", newScore);
-    updateBackendScore(newScore); // Update backend whenever score changes
+    updateBackendScore(newScore);
   };
 
   const handleNext = () => {
     const currentMovieId = currentMovie.id;
 
-    // ✅ Track used movies
     const updatedUsedMovies = [...usedMovies, currentMovieId];
     setUsedMovies(updatedUsedMovies);
     localStorage.setItem("usedMovies", JSON.stringify(updatedUsedMovies));
 
-    // ✅ Reset progress for next movie
     setWrongGuesses(0);
     setCorrectGuesses({
       actor: false,
@@ -245,7 +222,6 @@ const BollywoodGame = () => {
       })
     );
 
-    // ✅ Select next movie
     const availableMovies = movies.filter(
       (m) => !updatedUsedMovies.includes(m.id)
     );
@@ -264,6 +240,18 @@ const BollywoodGame = () => {
     setShowHint(false);
   };
 
+  const handleGiveUp = () => {
+    if (window.confirm("Are you sure you want to give up?")) {
+      setWrongGuesses(maxGuesses); // force game over
+      setCorrectGuesses({
+        actor: true,
+        actress: true,
+        movie_name: true,
+        song_name: true,
+      }); // reveal all answers
+    }
+  };
+
   const gameOver = wrongGuesses >= maxGuesses;
   const allGuessed =
     correctGuesses.actor &&
@@ -280,7 +268,6 @@ const BollywoodGame = () => {
       <div className='game-container'>
         <h1 className='title'>🎬 Bollywood Game</h1>
 
-        {/* Bollywood Strike Status */}
         <div className='bollywood-status'>
           {"BOLLYWOOD".split("").map((letter, index) => (
             <span key={index} className={index < wrongGuesses ? "crossed" : ""}>
@@ -289,12 +276,10 @@ const BollywoodGame = () => {
           ))}
         </div>
 
-        {/* ✅ Score */}
         <div className='score-box'>
           <strong>Score:</strong> {score}
         </div>
 
-        {/* Clues Table */}
         <div className={`card ${allGuessed ? "card-success" : ""}`}>
           <table className='table'>
             <tbody>
@@ -364,35 +349,35 @@ const BollywoodGame = () => {
           </table>
         </div>
 
-        {/* Hint */}
         {!gameOver && !allGuessed && (
-          <button className='hint-btn' onClick={() => setShowHint(!showHint)}>
-            {showHint ? "Hide Hint" : "Show Hint"}
-          </button>
-        )}
-        {showHint && (
-          <div className='hint-box'>
-            <p>
-              <strong>Hint:</strong> {currentMovie.genre} (
-              {currentMovie.release_year})
-            </p>
-          </div>
+          <>
+            {showHint && (
+              <div className='hint-box'>
+                <p>
+                  <strong>Hint:</strong> {currentMovie.genre} (
+                  {currentMovie.release_year})
+                </p>
+              </div>
+            )}
+            <form onSubmit={handleGuess} className='input-box'>
+              <input
+                type='text'
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder='Guess actor, actress, movie or song...'
+              />
+              <button type='submit'>Guess</button>
+            </form>
+            <button className='hint-btn' onClick={() => setShowHint(!showHint)}>
+              {showHint ? "Hide Hint" : "Show Hint"}
+            </button>
+            {/* ✅ Give Up Button */}
+            <button className='giveup-btn' onClick={handleGiveUp}>
+              😢 Give Up
+            </button>
+          </>
         )}
 
-        {/* Input */}
-        {!gameOver && !allGuessed && (
-          <form onSubmit={handleGuess} className='input-box'>
-            <input
-              type='text'
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder='Guess actor, actress, movie or song...'
-            />
-            <button type='submit'>Guess</button>
-          </form>
-        )}
-
-        {/* Game Over / Success */}
         {gameOver && (
           <div className='game-over'>
             ❌ Game Over! The answers were:
@@ -408,7 +393,6 @@ const BollywoodGame = () => {
           <div className='success'>✅ Awesome! You guessed everything!</div>
         )}
 
-        {/* Next + Reset */}
         {(gameOver || allGuessed) && (
           <button className='next-btn' onClick={handleNext}>
             Next Movie →

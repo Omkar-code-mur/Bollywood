@@ -7,7 +7,7 @@ const Leaderboard = () => {
   const currentUser = JSON.parse(localStorage.getItem("user")); // { userId, username }
 
   useEffect(() => {
-    fetch("https://bollywood-backend.onrender.com/leaderboard")
+    fetch("http://localhost:5000/leaderboard")
       .then((res) => res.json())
       .then((data) => setLeaders(data))
       .catch((err) => console.error(err));
